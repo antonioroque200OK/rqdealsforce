@@ -21,6 +21,7 @@ public class SmsService {
     private SaleRepository saleRepository;
 
     public void sendSms(Long saleId) {
+        // TODO: Refactor this assignment to handle 'sale not found'
         Sale sale = saleRepository.findById(saleId).get();
 
         String date = sale.getDate().getMonthValue() + "-" + sale.getDate().getDayOfMonth() + "-"
