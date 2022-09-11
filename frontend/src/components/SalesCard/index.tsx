@@ -33,7 +33,7 @@ export function SalesCard() {
 
     return (
         <div className="dashboard-card">
-            <h2 className="dashboard-sales-title">Vendas</h2>
+            <h2 className="dashboard-sales-title">Deals</h2>
             <div>
                 <div className="dashboard-form-control-container">
                     <DatePicker
@@ -79,7 +79,9 @@ export function SalesCard() {
                                     <td>{`\$ ${formattedValue(sale.amount)}`}</td>
                                     <td>
                                         <div className="dashboard-red-btn-container">
-                                            <NotificationButton />
+                                            <NotificationButton
+                                                saleId={sale.id}
+                                            />
                                         </div>
                                     </td>
                                 </tr>
