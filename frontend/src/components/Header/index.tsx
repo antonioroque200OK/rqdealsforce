@@ -6,7 +6,7 @@ export function Header() {
         <header>
             <div className="dashboard-logo-container">
                 <img src={logo} alt="Sales app logo" />
-                <h1>RoqueForces</h1>
+                <h1>RqDealsForces</h1>
             </div>
         </header>
     );

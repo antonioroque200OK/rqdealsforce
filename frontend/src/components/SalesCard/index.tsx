@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -12,6 +13,11 @@ export function SalesCard() {
 
     const [minDate, setMinDate] = useState<Date>(fromDate);
     const [maxDate, setMaxDate] = useState<Date>(toDate);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/sales")
+            .then(response => console.log(response.data));
+    }, []);
 
     return (
         <div className="dashboard-card">
