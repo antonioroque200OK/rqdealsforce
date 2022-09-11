@@ -4,7 +4,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { NotificationButton } from "../NotificationButton";
+import { BASE_URL, formattedValue } from "../../utils";
+
+import type { Sale } from "../../models/sale";
 import "./styles.css";
+
+
 
 export function SalesCard() {
     const yearPeriod = new Date().getDate() - 365;
@@ -14,9 +19,11 @@ export function SalesCard() {
     const [minDate, setMinDate] = useState<Date>(fromDate);
     const [maxDate, setMaxDate] = useState<Date>(toDate);
 
+    const [sales, setSales] = useState<Sale[]>([]);
+
     useEffect(() => {
-        axios.get("http://localhost:8080/sales")
-            .then(response => console.log(response.data));
+        axios.get(`${BASE_URL}/sales`)
+            .then(response => setSales(response.data.content));
     }, []);
 
     return (
@@ -55,45 +62,24 @@ export function SalesCard() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="show992">#341</td>
-                            <td className="show576">08/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show992">15</td>
-                            <td className="show992">11</td>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="dashboard-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show992">#341</td>
-                            <td className="show576">08/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show992">15</td>
-                            <td className="show992">11</td>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="dashboard-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="show992">#341</td>
-                            <td className="show576">08/07/2022</td>
-                            <td>Anakin</td>
-                            <td className="show992">15</td>
-                            <td className="show992">11</td>
-                            <td>R$ 55300.00</td>
-                            <td>
-                                <div className="dashboard-red-btn-container">
-                                    <NotificationButton />
-                                </div>
-                            </td>
-                        </tr>
+                        {sales.map((sale: Sale) => {
+
+                            return (
+                                <tr key={sale.id}>
+                                    <td className="show992">{`#${sale.id}`}</td>
+                                    <td className="show576">{new Date(sale.date).toLocaleDateString()}</td>
+                                    <td>{sale.sellerName}</td>
+                                    <td className="show992">{sale.visited}</td>
+                                    <td className="show992">{sale.deals}</td>
+                                    <td>{`\$ ${formattedValue(sale.amount)}`}</td>
+                                    <td>
+                                        <div className="dashboard-red-btn-container">
+                                            <NotificationButton />
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
