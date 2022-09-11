@@ -16,15 +16,20 @@ export function SalesCard() {
     const fromDate = new Date(new Date().setDate(yearPeriod));
     const toDate = new Date();
 
-    const [minDate, setMinDate] = useState<Date>(fromDate);
-    const [maxDate, setMaxDate] = useState<Date>(toDate);
+    const [fromDateState, setFromDateState] = useState<Date>(fromDate);
+    const [toDateState, setToDateState] = useState<Date>(toDate);
 
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/sales`)
+        const [fromDateISO, toDateISO] = [fromDateState, toDateState]
+            .map((date: Date) => date.toISOString().slice(0, 10));
+
+        const queryString = `fromDate=${fromDateISO}&toDate=${toDateISO}`;
+
+        axios.get(`${BASE_URL}/sales?${queryString}`)
             .then(response => setSales(response.data.content));
-    }, []);
+    }, [fromDateState, toDateState]);
 
     return (
         <div className="dashboard-card">
@@ -32,16 +37,16 @@ export function SalesCard() {
             <div>
                 <div className="dashboard-form-control-container">
                     <DatePicker
-                        selected={minDate}
-                        onChange={(date: Date) => setMinDate(date)}
+                        selected={fromDateState}
+                        onChange={(date: Date) => setFromDateState(date)}
                         className="dashboard-form-control"
                         dateFormat="dd/MM/yyyy"
                     />
                 </div>
                 <div className="dashboard-form-control-container">
                     <DatePicker
-                        selected={maxDate}
-                        onChange={(date: Date) => setMaxDate(date)}
+                        selected={toDateState}
+                        onChange={(date: Date) => setToDateState(date)}
                         className="dashboard-form-control"
                         dateFormat="dd/MM/yyyy"
                     />
