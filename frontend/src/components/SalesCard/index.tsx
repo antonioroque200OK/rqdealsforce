@@ -59,7 +59,7 @@ export function SalesCard() {
                         <tr>
                             <th className="show992">ID</th>
                             <th className="show576">Date</th>
-                            <th>Vendedor</th>
+                            <th>Sale Associate</th>
                             <th className="show992">Meetings</th>
                             <th className="show992">Sales</th>
                             <th>Total</th>
